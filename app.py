@@ -14,6 +14,9 @@ margin_top = int((root.winfo_screenheight() - height) / 2)
 
 root.geometry(f'{width}x{height}+{margin_left}+{margin_top}')
 root.title = 'image2ascii'
+root.resizable(False, False)
+icon = Image.open('./img/icon.ico')
+root.iconphoto(False, ImageTk.PhotoImage(icon))
 
 #main frame
 main_frame = Frame(root, bg='#FFFFAA')
