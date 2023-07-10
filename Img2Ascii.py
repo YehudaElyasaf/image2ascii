@@ -20,6 +20,7 @@ class Img2Ascii:
         return "\033[38;2;{};{};{}m{}\033[38;2;255;255;255m".format(r, g, b, char)
 
     def __get_image_color(self, image):
+        image = image.convert('RGB')
         total_r = 0
         total_g = 0
         total_b = 0
