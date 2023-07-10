@@ -2,10 +2,17 @@ from PIL import Image, ImageOps, ImageStat
 
 #ration between row height to character width
 CHAR_HEIGHT_WIDTH_RATIO = 2.35
+MIN_ROWS = 5
+MAX_ROWS = 100
 
 class Img2Ascii:
     def __init__(self, image_path):
         self.image_path = image_path
+        try:
+            image = Image.open(image_path)
+        except IOError:
+            raise Exception(f'{image_path} is not a valid image file')
+    
         #TODO: check if image has alpha channel (not supported currently)
         #TODO: check image format
 
@@ -29,8 +36,7 @@ class Img2Ascii:
         
         return r, g, b
 
-    def __get_image_char(self, image):
-        chars = '@#QOqo~,. '
+    def __get_image_char(self, image, chars):
         brightness = ImageStat.Stat(image).rms[0]
 
         char_index = int((brightness / 255) * len(chars))
@@ -41,21 +47,33 @@ class Img2Ascii:
 
         return chars[char_index]
     
-    def __get_character(self, cropped_image, is_colorful):
+    def __get_character(self, cropped_image, is_colorful, chars):
         r, g, b = self.__get_image_color(cropped_image)
-        char = self.__get_image_char(cropped_image)
+        char = self.__get_image_char(cropped_image, chars)
 
         if is_colorful:
             return self.__colored(r, g, b, char)
         else:
             return char
 
-    def to_ascii(self, rows=20, is_colorful=False, invert=False):
-        image = Image.open(self.image_path)
-        image.convert('RGB')
+    def __get_all_characters(self, invert):
+        chars = '@#QOqo~,. '
 
         if invert:
-            image = ImageOps.invert(image)
+            chars = chars[::-1]
+        
+        return chars
+
+    def to_ascii(self, rows, is_colorful=False, invert=False):
+        if(rows < MIN_ROWS):
+            raise Exception(f'Minimum rows allowed is {MIN_ROWS}')
+        if(rows > MAX_ROWS):
+            raise Exception(f'Maximum rows allowed is {MAX_ROWS}')
+
+        chars = self.__get_all_characters(invert)
+
+        image = Image.open(self.image_path)
+        image.convert('RGB')
             
         pixel_height = image.height / rows
         cols = int((image.width / pixel_height) * CHAR_HEIGHT_WIDTH_RATIO)
@@ -69,14 +87,8 @@ class Img2Ascii:
                 height = top + pixel_height
                 width = left + pixel_width
                 cropped_image = image.crop((left, top, width, height))
-                ascii += self.__get_character(cropped_image, is_colorful)
+                ascii += self.__get_character(cropped_image, is_colorful, chars)
             ascii += '\n'
             
         return ascii
 
-#demo
-img = Img2Ascii('bibi.jpeg')
-img = Img2Ascii('eye.jpg')
-img = Img2Ascii('../tsiur.png')
-
-print(img.to_ascii(rows=30, is_colorful=False, invert=True))
