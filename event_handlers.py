@@ -14,7 +14,7 @@ def open_image(frame, properties_frame):
 
 def convert_image(main_frame, result_frame, result_textbox):
     img2ascii = Img2Ascii(image_path)
-    ascii_text = img2ascii.to_ascii()
+    ascii_text = img2ascii.to_ascii(is_colorful=True, invert=False)
 
     main_frame.destroy()
     result_frame.pack(fill=BOTH, expand=True)
