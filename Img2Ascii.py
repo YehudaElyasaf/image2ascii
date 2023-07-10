@@ -1,5 +1,4 @@
 from PIL import Image, ImageOps, ImageStat
-import colorama
 
 #ration between row height to character width
 CHAR_HEIGHT_WIDTH_RATIO = 2.35
@@ -7,7 +6,8 @@ CHAR_HEIGHT_WIDTH_RATIO = 2.35
 class Img2Ascii:
     def __init__(self, image_path):
         self.image_path = image_path
-        colorama.init()
+        #TODO: check if image has alpha channel (not supported currently)
+        #TODO: check image format
 
     def __colored(self, r, g, b, char):
         return "\033[38;2;{};{};{}m{}\033[38;2;255;255;255m".format(r, g, b, char)
@@ -79,4 +79,4 @@ img = Img2Ascii('bibi.jpeg')
 img = Img2Ascii('eye.jpg')
 img = Img2Ascii('../tsiur.png')
 
-print(img.to_ascii(rows=30, is_colorful=True, invert=False))
+print(img.to_ascii(rows=30, is_colorful=False, invert=True))
