@@ -56,21 +56,21 @@ class Img2Ascii:
         else:
             return char
 
-    def __get_all_characters(self, invert):
+    def __get_all_characters(self, invert_ascii):
         chars = '@#QOqo~,. '
 
-        if invert:
+        if invert_ascii:
             chars = chars[::-1]
         
         return chars
 
-    def to_ascii(self, rows, is_colorful=False, invert=False):
+    def to_ascii(self, rows, is_colorful=False, invert_ascii=False, invert_colors=False):
         if(rows < MIN_ROWS):
             raise Exception(f'Minimum rows allowed is {MIN_ROWS}')
         if(rows > MAX_ROWS):
             raise Exception(f'Maximum rows allowed is {MAX_ROWS}')
 
-        chars = self.__get_all_characters(invert)
+        chars = self.__get_all_characters(invert_ascii)
 
         image = Image.open(self.image_path)
         image.convert('RGB')

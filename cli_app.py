@@ -7,9 +7,10 @@ parser = argparse.ArgumentParser(
 )
 
 parser.add_argument('filename')
-parser.add_argument('-r', '--rows')
-parser.add_argument('-i', '--invert', action='store_const', const='invert')
-parser.add_argument('-c', '--colorful', action='store_const', const='colorful')
+parser.add_argument('-r', '--rows', help=f'select result rows ({MIN_ROWS} - {MAX_ROWS})')
+parser.add_argument('-i', '--invert-ascii', action='store_const', const='invert_ascii', help='invert foreground and background')
+parser.add_argument('-I', '--invert-colors', action='store_const', const='invert_colors', help='invert image\'s colors') #TODO
+parser.add_argument('-c', '--colorful', action='store_const', const='colorful', help='create colored ascii art')
 
 args = parser.parse_args()
 
@@ -26,10 +27,12 @@ try:
     image = Img2Ascii(args.filename)
     print(image.to_ascii(
         rows=rows,
-        invert=args.invert is not None,
+        invert_ascii=args.invert_ascii is not None,
         is_colorful=args.colorful is not None,
         ))
+
 except Exception as e:
+    raise e
     print('Error!')
     print(e.args[0])
     exit(1)
