@@ -30,7 +30,6 @@ try:
         is_colorful=args.colorful is not None,
         ))
 except Exception as e:
-    #raise e
     print('Error!')
     print(e.args[0])
     exit(1)
