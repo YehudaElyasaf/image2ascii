@@ -25,7 +25,7 @@ if args.rows is not None:
 
 try:
     image = Img2Ascii(args.filename)
-    image_mat = image.to_ascii(
+    image_mat = image.to_ascii_matrix(
         rows=rows,
         invert_ascii=args.invert_ascii is not None,
         invert_colors=args.invert_colors is not None,

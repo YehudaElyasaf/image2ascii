@@ -34,7 +34,7 @@ btn_convert.pack(side=BOTTOM)
 #result frame
 result_frame = Frame(root, bg='green')
 
-result_textbox = Text(result_frame)
+result_textbox = Text(result_frame, bg='#fff')
 result_textbox.pack(fill=BOTH, expand=True)
 
 copy_btn = Button(result_frame, text='copy')

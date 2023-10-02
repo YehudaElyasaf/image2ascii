@@ -69,7 +69,7 @@ class Img2Ascii:
         
         return chars
 
-    def to_ascii(self, rows, is_colorful=False, invert_ascii=False, invert_colors=False):
+    def to_ascii_matrix(self, rows, is_colorful=False, invert_ascii=False, invert_colors=False):
         if invert_colors and not is_colorful:
             raise Exception("Can't invert colors of colorless image")
 
