@@ -16,15 +16,11 @@ class Img2Ascii:
         #TODO: check if image has alpha channel (not supported currently)
         #TODO: check image format
 
-    def __colored(self, r, g, b, char, is_inverted):
-        if is_inverted:
-            r = 255 - r
-            g = 255 - g
-            b = 255 - b
+    def __get_image_color(self, image, is_colorful, is_inverted):
+        if not is_colorful:
+            #black color
+            return 0, 0, 0
 
-        return "\033[38;2;{};{};{}m{}\033[38;2;255;255;255m".format(r, g, b, char)
-
-    def __get_image_color(self, image):
         total_r = 0
         total_g = 0
         total_b = 0
@@ -38,6 +34,11 @@ class Img2Ascii:
                 total_g += pixel[1]
                 total_b += pixel[2]
         r, g, b = total_r // total_pixels, total_g // total_pixels, total_b // total_pixels
+
+        if is_inverted:
+            r = 255 - r
+            g = 255 - g
+            b = 255 - b            
         
         return r, g, b
 
@@ -52,14 +53,11 @@ class Img2Ascii:
 
         return chars[char_index]
     
-    def __get_character(self, cropped_image, chars, is_colorful, invert_colors):
-        r, g, b = self.__get_image_color(cropped_image)
+    def __get_cell(self, cropped_image, chars, is_colorful, invert_colors):
+        r, g, b = self.__get_image_color(cropped_image, is_colorful, invert_colors)
         char = self.__get_image_char(cropped_image, chars)
-
-        if is_colorful:
-            return self.__colored(r, g, b, char, invert_colors)
-        else:
-            return char
+        
+        return AsciiCell(char, r, g, b)
 
     def __get_all_characters(self, invert_ascii):
         chars = '@#QOqo~,. '
@@ -87,7 +85,8 @@ class Img2Ascii:
         cols = int((image.width / pixel_height) * CHAR_HEIGHT_WIDTH_RATIO)
         pixel_width = image.width / cols
 
-        ascii = ''
+        mat = AsciiMatrix(rows, cols)
+        
         for row in range(rows):
             for col in range(cols):
                 top = pixel_height * row
@@ -95,8 +94,8 @@ class Img2Ascii:
                 height = top + pixel_height
                 width = left + pixel_width
                 cropped_image = image.crop((left, top, width, height))
-                ascii += self.__get_character(cropped_image, chars, is_colorful, invert_colors)
-            ascii += '\n'
-            
-        return ascii
+                cell = self.__get_cell(cropped_image, chars, is_colorful, invert_colors)
 
+                mat[row][col] = cell
+            
+        return mat

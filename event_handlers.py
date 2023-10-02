@@ -19,6 +19,6 @@ def convert_image(main_frame, result_frame, result_textbox):
     main_frame.destroy()
     result_frame.pack(fill=BOTH, expand=True)
     
-    result_textbox.delete(END)
     result_textbox.insert(END, ascii_text)
     result_textbox.config(state=DISABLED)
+    
