@@ -16,7 +16,12 @@ class Img2Ascii:
         #TODO: check if image has alpha channel (not supported currently)
         #TODO: check image format
 
-    def __colored(self, r, g, b, char):
+    def __colored(self, r, g, b, char, is_inverted):
+        if is_inverted:
+            r = 255 - r
+            g = 255 - g
+            b = 255 - b
+
         return "\033[38;2;{};{};{}m{}\033[38;2;255;255;255m".format(r, g, b, char)
 
     def __get_image_color(self, image):
@@ -47,12 +52,12 @@ class Img2Ascii:
 
         return chars[char_index]
     
-    def __get_character(self, cropped_image, is_colorful, chars):
+    def __get_character(self, cropped_image, chars, is_colorful, invert_colors):
         r, g, b = self.__get_image_color(cropped_image)
         char = self.__get_image_char(cropped_image, chars)
 
         if is_colorful:
-            return self.__colored(r, g, b, char)
+            return self.__colored(r, g, b, char, invert_colors)
         else:
             return char
 
@@ -65,6 +70,9 @@ class Img2Ascii:
         return chars
 
     def to_ascii(self, rows, is_colorful=False, invert_ascii=False, invert_colors=False):
+        if invert_colors and not is_colorful:
+            raise Exception("Can't invert colors of colorless image")
+
         if(rows < MIN_ROWS):
             raise Exception(f'Minimum rows allowed is {MIN_ROWS}')
         if(rows > MAX_ROWS):
@@ -87,7 +95,7 @@ class Img2Ascii:
                 height = top + pixel_height
                 width = left + pixel_width
                 cropped_image = image.crop((left, top, width, height))
-                ascii += self.__get_character(cropped_image, is_colorful, chars)
+                ascii += self.__get_character(cropped_image, chars, is_colorful, invert_colors)
             ascii += '\n'
             
         return ascii
