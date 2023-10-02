@@ -44,3 +44,5 @@ convert_new_btn.pack()
 
 #run
 root.mainloop()
+
+#TODO: cli params

@@ -16,9 +16,10 @@ class Img2Ascii:
             raise Exception(f'{image_path} is not a valid image file')
     
         #TODO: check if image has alpha channel (not supported currently)
-        #TODO: check image format
 
     def __get_image_color(self, image, is_colorful, is_inverted):
+        image = image.convert('RGB')
+        
         if not is_colorful:
             #black color
             return 0, 0, 0
@@ -32,9 +33,16 @@ class Img2Ascii:
         for x in range(image.width):
             for y in range(image.height):
                 pixel = image.getpixel((x, y))
-                total_r += pixel[0]
-                total_g += pixel[1]
-                total_b += pixel[2]
+                if type(pixel) == int:
+                    #one color
+                    total_r += pixel
+                    total_g += pixel
+                    total_b += pixel
+                else:
+                    #multicolor
+                    total_r += pixel[0]
+                    total_g += pixel[1]
+                    total_b += pixel[2]
         r, g, b = total_r // total_pixels, total_g // total_pixels, total_b // total_pixels
 
         if is_inverted:
