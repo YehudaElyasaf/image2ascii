@@ -5,5 +5,5 @@ class AsciiCell:
         self.g = g
         self.b = b
 
-        def __str__(self):
-            return "\033[38;2;{};{};{}m{}\033[38;2;255;255;255m".format(r, g, b, char)
+    def __str__(self):
+        return "\033[38;2;{};{};{}m{}\033[38;2;255;255;255m".format(self.r, self.g, self.b, self.char)

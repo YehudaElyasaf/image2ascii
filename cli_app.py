@@ -25,12 +25,19 @@ if args.rows is not None:
 
 try:
     image = Img2Ascii(args.filename)
-    print(image.to_ascii(
+    image_mat = image.to_ascii(
         rows=rows,
         invert_ascii=args.invert_ascii is not None,
         invert_colors=args.invert_colors is not None,
         is_colorful=args.colorful is not None,
-        ))
+        )
+    
+    #print image
+    for row in image_mat:
+        for cell in row:
+            print(cell, end='')
+
+        print()
 
 except Exception as e:
     print('Error!')

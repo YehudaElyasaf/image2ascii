@@ -1,4 +1,6 @@
-from PIL import Image, ImageOps, ImageStat
+from PIL import Image, ImageStat
+
+from AsciiCell import *
 
 #ration between row height to character width
 CHAR_HEIGHT_WIDTH_RATIO = 2.35
@@ -85,9 +87,11 @@ class Img2Ascii:
         cols = int((image.width / pixel_height) * CHAR_HEIGHT_WIDTH_RATIO)
         pixel_width = image.width / cols
 
-        mat = AsciiMatrix(rows, cols)
+        image_mat = []
         
         for row in range(rows):
+            row_to_add = []
+
             for col in range(cols):
                 top = pixel_height * row
                 left = pixel_width * col
@@ -96,6 +100,8 @@ class Img2Ascii:
                 cropped_image = image.crop((left, top, width, height))
                 cell = self.__get_cell(cropped_image, chars, is_colorful, invert_colors)
 
-                mat[row][col] = cell
+                row_to_add.append(cell)
             
-        return mat
+            image_mat.append(row_to_add)
+            
+        return image_mat
