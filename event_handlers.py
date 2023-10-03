@@ -3,35 +3,46 @@ from tkinter import filedialog
 
 from Img2Ascii import *
 
-image_path = ''
-
-def open_image(frame, properties_frame):
-    global image_path
+def open_image(result_textbox, buttons_frame):
     image_path = filedialog.askopenfilename(title="Select image", filetypes=(
         ('Image Files', ('*.png', '*.jpg', '*.jpeg')),
         ))
-    properties_frame.pack(fill=BOTH, expand=True)
+    
+    if image_path == '' or image_path == ():
+        #no image was selected
+        return
+    
+    #enable butotns frame
+    enable_frame(buttons_frame)
+    __show_image(image_path, result_textbox)
 
-def convert_image(main_frame, result_frame, result_textbox):
+def __show_image(image_path, result_textbox):
     img2ascii = Img2Ascii(image_path)
     ascii_mat = img2ascii.to_ascii_matrix(rows=25, is_colorful=True, invert_ascii=False)
 
-    main_frame.destroy()
-    result_frame.pack(fill=BOTH, expand=True)
-    result_textbox.delete(END)
+    result_textbox['state'] = NORMAL
+    result_textbox.delete('1.0', END)
     #show image
     for row in ascii_mat:
         for cell in row:
             #set color
-            color = rgb_to_hrml(cell.r, cell.g, cell.g)
+            color = __rgb_to_hrml(cell.r, cell.g, cell.g)
             result_textbox.tag_config(color, foreground=color)
             #print letter
             result_textbox.insert(END, cell.char, color)
         
         result_textbox.insert(END, '\n')
+    
+    result_textbox['state'] = DISABLED
 
-    result_textbox.config(state=DISABLED)
-
-
-def rgb_to_hrml(r, g, b):
+#helper methods
+def __rgb_to_hrml(r, g, b):
     return f'#{r:02x}{g:02x}{b:02x}'
+
+def disable_frame(frame):
+    for child in frame.winfo_children():
+        child['state'] = DISABLED
+        
+def enable_frame(frame):
+    for child in frame.winfo_children():
+        child['state'] = ACTIVE

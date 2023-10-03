@@ -2,7 +2,9 @@ from tkinter import *
 from PIL import ImageTk, Image
 
 import event_handlers
+from event_handlers import disable_frame
 
+#GUI
 root = Tk()
 
 #root
@@ -22,27 +24,25 @@ root.iconphoto(False, ImageTk.PhotoImage(icon))
 main_frame = Frame(root, bg='#FFFFAA')
 main_frame.pack(fill=BOTH, expand=True)
 
-btn_select = Button(main_frame, text='select image', command=lambda: event_handlers.open_image(main_frame, properties_frame))
+btn_select = Button(main_frame, text='select image', command=lambda: event_handlers.open_image(result_textbox, buttons_frame))
 btn_select.pack()
 
-#properties frame
-properties_frame = Frame(main_frame, bg='#FFFFFF')
-
-btn_convert = Button(properties_frame, text='convert', command=lambda: event_handlers.convert_image(main_frame, result_frame, result_textbox))
-btn_convert.pack(side=BOTTOM)
-
-#result frame
-result_frame = Frame(root, bg='green')
-
-result_textbox = Text(result_frame, bg='#fff')
+#result_textbox
+result_textbox = Text(main_frame, bg='#fff')
 result_textbox.pack(fill=BOTH, expand=True)
+result_textbox['state']=DISABLED
 
-copy_btn = Button(result_frame, text='copy')
-copy_btn.pack()
-convert_new_btn = Button(result_frame, text='convert new image')
-convert_new_btn.pack()
+#buttons_frame
+buttons_frame = Frame(main_frame)
+buttons_frame.pack(fill=BOTH)
+
+copy_btn = Button(buttons_frame, text='copy')
+copy_btn.pack(side=RIGHT, fill=X, expand=True)
+
+convert_new_btn = Button(buttons_frame, text='convert new image')
+convert_new_btn.pack(side=RIGHT, fill=X, expand=True)
+
+disable_frame(buttons_frame)
 
 #run
 root.mainloop()
-
-#TODO: cli params
