@@ -1,3 +1,4 @@
+import os
 from tkinter import *
 from tkinter import filedialog
 
@@ -6,7 +7,7 @@ from Img2Ascii import *
 #globals
 img2ascii = None
 
-def open_image(result_textbox, buttons_frame):
+def open_image(result_textbox, options_frame, btn_select_image, selected_image_lbl):
     image_path = filedialog.askopenfilename(title="Select image", filetypes=(
         ('Image Files', ('*.png', '*.jpg', '*.jpeg')),
         ))
@@ -16,12 +17,17 @@ def open_image(result_textbox, buttons_frame):
         return
     
     #enable butotns frame
-    enable_frame(buttons_frame)
+    enable_frame(options_frame)
     
     #show image
     global img2ascii
     img2ascii = Img2Ascii(image_path)
     __show_image(result_textbox)
+    
+    #show selected image name in GUI
+    btn_select_image['text'] = 'convert new image'
+    image_filename = os.path.basename(image_path)
+    selected_image_lbl['text'] = image_filename
 
 def __show_image(result_textbox):
     global img2ascii

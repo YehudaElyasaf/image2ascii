@@ -70,7 +70,8 @@ class Img2Ascii:
         return AsciiCell(char, r, g, b)
 
     def __get_all_characters(self, invert_ascii):
-        chars = '@#QOqo~,. '
+        #TODO: allow user select characters (in both GUI and CLI)
+        chars = '@0QO%#&o=*+~-:,. '
 
         if invert_ascii:
             chars = chars[::-1]
@@ -97,6 +98,7 @@ class Img2Ascii:
 
         image_mat = []
         
+        #TODO: sometome, image is too bright or it doesn't have enough brightness differences between pixels.
         for row in range(rows):
             row_to_add = []
 

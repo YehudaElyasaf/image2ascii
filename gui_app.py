@@ -14,35 +14,41 @@ width = 1000
 margin_left = int((root.winfo_screenwidth() - width) / 2)
 margin_top = int((root.winfo_screenheight() - height) / 2)
 
+#TODO: GUI changes: colors and buttons
 root.geometry(f'{width}x{height}+{margin_left}+{margin_top}')
 root.title = 'image2ascii'
 root.resizable(False, False)
 icon = Image.open('./img/icon.ico')
 root.iconphoto(False, ImageTk.PhotoImage(icon))
+root['bg'] = '#FFFF00'
 
-#main frame
-main_frame = Frame(root, bg='#FFFFAA')
-main_frame.pack(fill=BOTH, expand=True)
+#select image frame
+select_image_frame = Frame(root, bg='')
+select_image_frame.pack()
 
-btn_select = Button(main_frame, text='select image', command=lambda: event_handlers.open_image(result_textbox, buttons_frame))
-btn_select.pack()
+select_image_btn = Button(select_image_frame, text='convert image', command=lambda: event_handlers.open_image(result_textbox, options_frame, select_image_btn, selected_image_lbl))
+select_image_btn.pack(side=LEFT, anchor=CENTER, padx=10)
+
+selected_image_lbl = Label(select_image_frame, bg=root['bg'], fg='black', text='No image selected')#, command=lambda: event_handlers.)
+selected_image_lbl.pack(side=RIGHT, anchor=CENTER)
 
 #result_textbox
-result_textbox = Text(main_frame, bg='#333')
+#TODO: allow user select font
+#TODO: set font size according to rows
+#TODO: allow user set forecolor (in one-color mode) and bgcolor
+result_textbox = Text(root, bg='#222', font=('Monospace', 10, 'bold'))
 result_textbox.pack(fill=BOTH, expand=True)
 result_textbox['state']=DISABLED
 
-#buttons_frame
-buttons_frame = Frame(main_frame)
-buttons_frame.pack(fill=BOTH)
+#options_frame
+#TODO: save options to file
+options_frame = Frame(root)
+options_frame.pack(fill=X)
 
-copy_btn = Button(buttons_frame, text='copy')
+copy_btn = Button(options_frame, text='copy')
 copy_btn.pack(side=RIGHT, fill=X, expand=True)
 
-convert_new_btn = Button(buttons_frame, text='convert new image')
-convert_new_btn.pack(side=RIGHT, fill=X, expand=True)
-
-disable_frame(buttons_frame)
+disable_frame(options_frame)
 
 #run
 root.mainloop()
