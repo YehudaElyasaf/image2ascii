@@ -3,6 +3,9 @@ from tkinter import filedialog
 
 from Img2Ascii import *
 
+#globals
+img2ascii = None
+
 def open_image(result_textbox, buttons_frame):
     image_path = filedialog.askopenfilename(title="Select image", filetypes=(
         ('Image Files', ('*.png', '*.jpg', '*.jpeg')),
@@ -14,10 +17,14 @@ def open_image(result_textbox, buttons_frame):
     
     #enable butotns frame
     enable_frame(buttons_frame)
-    __show_image(image_path, result_textbox)
-
-def __show_image(image_path, result_textbox):
+    
+    #show image
+    global img2ascii
     img2ascii = Img2Ascii(image_path)
+    __show_image(result_textbox)
+
+def __show_image(result_textbox):
+    global img2ascii
     ascii_mat = img2ascii.to_ascii_matrix(rows=25, is_colorful=True, invert_ascii=False)
 
     result_textbox['state'] = NORMAL

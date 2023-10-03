@@ -1,5 +1,7 @@
 import argparse
+
 from Img2Ascii import *
+import config
 
 parser = argparse.ArgumentParser(
     prog='Img2Ascii',
@@ -40,7 +42,9 @@ try:
         print()
 
 except Exception as e:
-    raise e
-    print('Error!')
-    print(e.args[0])
-    exit(1)
+    if config.DEBUG_MODE:
+        raise e
+    else:
+        print('Error!')
+        print(e.args[0])
+        exit(1)

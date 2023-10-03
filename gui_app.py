@@ -28,7 +28,7 @@ btn_select = Button(main_frame, text='select image', command=lambda: event_handl
 btn_select.pack()
 
 #result_textbox
-result_textbox = Text(main_frame, bg='#fff')
+result_textbox = Text(main_frame, bg='#333')
 result_textbox.pack(fill=BOTH, expand=True)
 result_textbox['state']=DISABLED
 
