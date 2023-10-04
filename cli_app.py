@@ -39,13 +39,11 @@ try:
     )
     
     #print image
-    print()
     for row in image_mat:
         for cell in row:
             print(cell, end='')
 
         print()
-    print()
 
 except Exception as e:
     if config.DEBUG_MODE:
