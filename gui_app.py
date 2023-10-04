@@ -38,6 +38,7 @@ selected_image_lbl.pack(side=RIGHT, anchor=CENTER)
 #result_textbox
 #TODO: set font size according to rows
 #TODO: allow user set forecolor (in one-color mode) and bgcolor
+#TODO: save ASCII to image?
 result_textbox = Text(root, bg='#fff', font=('Monospace', 10, 'bold'))
 result_textbox.pack(fill=BOTH, expand=True)
 result_textbox['state']=DISABLED

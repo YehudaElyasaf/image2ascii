@@ -11,18 +11,18 @@ class ImgOptions:
     is_colorful =  False
     invert_colors =  False
     
-    def __init__(self):
-        #read options from file
-        try:
-            self.__load_options()
-        except Exception as e:
-            #use default options
-            pass
-    
-    def __init__(self, invert_ascii, is_colorful, invert_colors):
-        self.invert_ascii = invert_ascii
-        self.is_colorful = is_colorful
-        self.invert_colors = invert_colors
+    def __init__(self, invert_ascii=None, is_colorful=None, invert_colors=None):
+        if invert_ascii is None or is_colorful is None or invert_colors is None:
+            #read options from file
+            try:
+                self.__load_options()
+            except Exception as e:
+                #use default options
+                pass
+        else:
+            self.invert_ascii = invert_ascii
+            self.is_colorful = is_colorful
+            self.invert_colors = invert_colors
     
     def __load_options(self):
         '''Read options from file'''
