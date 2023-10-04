@@ -3,6 +3,7 @@ from PIL import ImageTk, Image
 
 import event_handlers
 from event_handlers import disable_frame
+from ImgOptions import *
 
 #GUI
 root = Tk()
@@ -26,7 +27,7 @@ root['bg'] = '#FFFF00'
 select_image_frame = Frame(root, bg='')
 select_image_frame.pack()
 
-select_image_btn = Button(select_image_frame, text='convert image', command=lambda: event_handlers.open_image(result_textbox, options_frame, select_image_btn, selected_image_lbl))
+select_image_btn = Button(select_image_frame, text='convert image', command=lambda: event_handlers.open_image(result_textbox, options_frame, select_image_btn, selected_image_lbl, options))
 select_image_btn.pack(side=LEFT, anchor=CENTER, padx=10)
 
 selected_image_lbl = Label(select_image_frame, bg=root['bg'], fg='black', text='No image selected')#, command=lambda: event_handlers.)
@@ -41,7 +42,8 @@ result_textbox.pack(fill=BOTH, expand=True)
 result_textbox['state']=DISABLED
 
 #options_frame
-#TODO: save options to file
+options = ImgOptions()
+
 options_frame = Frame(root)
 options_frame.pack(fill=X)
 
@@ -50,5 +52,6 @@ copy_btn.pack(side=RIGHT, fill=X, expand=True)
 
 disable_frame(options_frame)
 
+#TODO: GUI exception handling?
 #run
 root.mainloop()
