@@ -1,13 +1,20 @@
 import os
+import clipboard
 from tkinter import *
 from tkinter import filedialog
 
 from Img2Ascii import *
+import gui_helper
 
 #globals
 img2ascii = None
+result_textbox = None
 
-def open_image(result_textbox, options_frame, btn_select_image, selected_image_lbl, options):
+#select image frame buttons
+def open_image(_result_textbox, options_frame, btn_select_image, selected_image_lbl, options):
+    global img2ascii, result_textbox
+    result_textbox = _result_textbox
+    
     image_path = filedialog.askopenfilename(title="Select image", filetypes=(
         ('Image Files', ('*.png', '*.jpg', '*.jpeg')),
         ))
@@ -17,45 +24,54 @@ def open_image(result_textbox, options_frame, btn_select_image, selected_image_l
         return
     
     #enable options frame
-    enable_frame(options_frame)
+    gui_helper.enable_frame(options_frame)
     
     #show image
-    global img2ascii
     img2ascii = Img2Ascii(image_path)
-    __show_image(result_textbox, options)
+    gui_helper.show_image(result_textbox, img2ascii, options)
     
     #show selected image name in GUI
     btn_select_image['text'] = 'convert new image'
     image_filename = os.path.basename(image_path)
     selected_image_lbl['text'] = image_filename
 
-def __show_image(result_textbox, image_options):
-    global img2ascii
-    ascii_mat = img2ascii.to_ascii_matrix(image_options, rows=25)
+#options frame buttons
+def copy(result_textbox):
+    text = result_textbox.get('1.0', END) #all text
+    clipboard.copy(text)
 
-    result_textbox['state'] = NORMAL
-    result_textbox.delete('1.0', END)
-    #show image
-    for row in ascii_mat:
-        for cell in row:
-            #set color
-            color = __rgb_to_hrml(cell.r, cell.g, cell.g)
-            result_textbox.tag_config(color, foreground=color)
-            #print letter
-            result_textbox.insert(END, cell.char, color)
-        
-        result_textbox.insert(END, '\n')
+def invert_ascii(sender, options):
+    options.invert_ascii = not options.invert_ascii
     
-    result_textbox['state'] = DISABLED
-
-#helper methods
-def __rgb_to_hrml(r, g, b):
-    return f'#{r:02x}{g:02x}{b:02x}'
-
-def disable_frame(frame):
-    for child in frame.winfo_children():
-        child['state'] = DISABLED
+    if options.invert_ascii:
+        gui_helper.select_button(sender)
+    else:
+        gui_helper.unselect_button(sender)
         
-def enable_frame(frame):
-    for child in frame.winfo_children():
-        child['state'] = ACTIVE
+    gui_helper.show_image(result_textbox, img2ascii, options)
+        
+def is_colorful(sender, options, invert_colors_btn):
+    options.is_colorful = not options.is_colorful
+    
+    if options.is_colorful:
+        gui_helper.select_button(sender)
+        invert_colors_btn['state'] = ACTIVE
+    else:
+        #can't invert colors of colorless image
+        gui_helper.unselect_button(invert_colors_btn)
+        options.invert_colors = False
+        gui_helper.unselect_button(sender)
+        
+        invert_colors_btn['state'] = DISABLED
+        
+    gui_helper.show_image(result_textbox, img2ascii, options)
+        
+def invert_colors(sender, options):
+    options.invert_colors = not options.invert_colors
+    
+    if options.invert_colors:
+        gui_helper.select_button(sender)
+    else:
+        gui_helper.unselect_button(sender)
+            
+    gui_helper.show_image(result_textbox, img2ascii, options)

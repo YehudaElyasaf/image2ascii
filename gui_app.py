@@ -4,7 +4,7 @@ from PIL import ImageTk, Image
 
 import event_handlers
 import config
-from event_handlers import disable_frame
+from gui_helper import disable_frame
 from ImgOptions import *
 
 #GUI
@@ -32,29 +32,40 @@ select_image_frame.pack()
 select_image_btn = Button(select_image_frame, text='convert image', command=lambda: event_handlers.open_image(result_textbox, options_frame, select_image_btn, selected_image_lbl, options))
 select_image_btn.pack(side=LEFT, anchor=CENTER, padx=10)
 
-selected_image_lbl = Label(select_image_frame, bg=root['bg'], fg='black', text='No image selected')#, command=lambda: event_handlers.)
+selected_image_lbl = Label(select_image_frame, bg=root['bg'], fg='black', text='No image selected')
 selected_image_lbl.pack(side=RIGHT, anchor=CENTER)
 
 #result_textbox
 #TODO: allow user select font
 #TODO: set font size according to rows
 #TODO: allow user set forecolor (in one-color mode) and bgcolor
-result_textbox = Text(root, bg='#222', font=('Monospace', 10, 'bold'))
+result_textbox = Text(root, bg='#fff', font=('Monospace', 10, 'bold'))
 result_textbox.pack(fill=BOTH, expand=True)
 result_textbox['state']=DISABLED
 
 #options_frame
-options = ImgOptions()
+options = ImgOptions() #reads options from file
 
 options_frame = Frame(root)
 options_frame.pack(fill=X)
 
-copy_btn = Button(options_frame, text='copy')
-copy_btn.pack(side=RIGHT, fill=X, expand=True)
+copy_btn = Button(options_frame, text='copy',
+                          command=lambda: event_handlers.copy(result_textbox))
+copy_btn.pack(side=LEFT, fill=X, expand=True)
+
+invert_ascii_btn = Button(options_frame, text='invert ASCII',
+                          command=lambda: event_handlers.invert_ascii(invert_ascii_btn, options))
+invert_ascii_btn.pack(side=LEFT, fill=X, expand=True)
+
+is_colorful_btn = Button(options_frame, text='is colorful',
+                         command=lambda: event_handlers.is_colorful(is_colorful_btn, options, invert_colors_btn))
+is_colorful_btn.pack(side=LEFT, fill=X, expand=True)
+
+invert_colors_btn = Button(options_frame, text='invert colors',
+                           command=lambda: event_handlers.invert_colors(invert_colors_btn, options))
+invert_colors_btn.pack(side=LEFT, fill=X, expand=True)
 
 disable_frame(options_frame)
-
-import traceback
 
 #exception handling
 def report_callback_exception(self, exception, *args):
@@ -65,6 +76,6 @@ def report_callback_exception(self, exception, *args):
         messagebox.showerror('Error', message)
     
 root.report_callback_exception = report_callback_exception
-#TODO: GUI exception handling?
+
 #run
 root.mainloop()
