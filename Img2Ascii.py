@@ -78,8 +78,8 @@ class Img2Ascii:
         
         return chars
 
-    def to_ascii_matrix(self, rows, is_colorful=False, invert_ascii=False, invert_colors=False):
-        if invert_colors and not is_colorful:
+    def to_ascii_matrix(self, options, rows):
+        if options.invert_colors and not options.is_colorful:
             raise Exception("Can't invert colors of colorless image")
 
         if(rows < MIN_ROWS):
@@ -87,7 +87,7 @@ class Img2Ascii:
         if(rows > MAX_ROWS):
             raise Exception(f'Maximum rows allowed is {MAX_ROWS}')
 
-        chars = self.__get_all_characters(invert_ascii)
+        chars = self.__get_all_characters(options.invert_ascii)
 
         image = Image.open(self.image_path)
         image.convert('RGB')
@@ -108,7 +108,7 @@ class Img2Ascii:
                 height = top + pixel_height
                 width = left + pixel_width
                 cropped_image = image.crop((left, top, width, height))
-                cell = self.__get_cell(cropped_image, chars, is_colorful, invert_colors)
+                cell = self.__get_cell(cropped_image, chars, options.is_colorful, options.invert_colors)
 
                 row_to_add.append(cell)
             

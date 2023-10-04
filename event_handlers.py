@@ -7,7 +7,7 @@ from Img2Ascii import *
 #globals
 img2ascii = None
 
-def open_image(result_textbox, options_frame, btn_select_image, selected_image_lbl):
+def open_image(result_textbox, options_frame, btn_select_image, selected_image_lbl, options):
     image_path = filedialog.askopenfilename(title="Select image", filetypes=(
         ('Image Files', ('*.png', '*.jpg', '*.jpeg')),
         ))
@@ -16,22 +16,22 @@ def open_image(result_textbox, options_frame, btn_select_image, selected_image_l
         #no image was selected
         return
     
-    #enable butotns frame
+    #enable options frame
     enable_frame(options_frame)
     
     #show image
     global img2ascii
     img2ascii = Img2Ascii(image_path)
-    __show_image(result_textbox)
+    __show_image(result_textbox, options)
     
     #show selected image name in GUI
     btn_select_image['text'] = 'convert new image'
     image_filename = os.path.basename(image_path)
     selected_image_lbl['text'] = image_filename
 
-def __show_image(result_textbox):
+def __show_image(result_textbox, image_options):
     global img2ascii
-    ascii_mat = img2ascii.to_ascii_matrix(rows=25, is_colorful=True, invert_ascii=False)
+    ascii_mat = img2ascii.to_ascii_matrix(image_options, rows=25)
 
     result_textbox['state'] = NORMAL
     result_textbox.delete('1.0', END)
