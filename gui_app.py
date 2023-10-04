@@ -36,7 +36,6 @@ selected_image_lbl = Label(select_image_frame, bg=root['bg'], fg='black', text='
 selected_image_lbl.pack(side=RIGHT, anchor=CENTER)
 
 #result_textbox
-#TODO: allow user select font
 #TODO: set font size according to rows
 #TODO: allow user set forecolor (in one-color mode) and bgcolor
 result_textbox = Text(root, bg='#fff', font=('Monospace', 10, 'bold'))
