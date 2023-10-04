@@ -1,7 +1,9 @@
 from tkinter import *
+from tkinter import messagebox
 from PIL import ImageTk, Image
 
 import event_handlers
+import config
 from event_handlers import disable_frame
 from ImgOptions import *
 
@@ -52,6 +54,17 @@ copy_btn.pack(side=RIGHT, fill=X, expand=True)
 
 disable_frame(options_frame)
 
+import traceback
+
+#exception handling
+def report_callback_exception(self, exception, *args):
+    if config.DEBUG_MODE:
+        raise exception
+    else:
+        message = exception.args[0]
+        messagebox.showerror('Error', message)
+    
+root.report_callback_exception = report_callback_exception
 #TODO: GUI exception handling?
 #run
 root.mainloop()
