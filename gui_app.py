@@ -4,7 +4,7 @@ from PIL import ImageTk, Image
 
 import event_handlers
 import config
-from gui_helper import disable_frame
+import gui_helper
 from ImgOptions import *
 
 #GUI
@@ -65,7 +65,15 @@ invert_colors_btn = Button(options_frame, text='invert colors',
                            command=lambda: event_handlers.invert_colors(invert_colors_btn, options))
 invert_colors_btn.pack(side=LEFT, fill=X, expand=True)
 
-disable_frame(options_frame)
+#ADDING WIDGETS TO OPTIONS FRAME:
+# 1. add widghet here
+# 2. add widget to options
+# 3. add widget to method 'load_options' in gui_helper.py
+
+#show options from file on GUI
+#TODO: why do changes appear only on hovering?
+gui_helper.show_options(options, invert_ascii_btn, is_colorful_btn, invert_colors_btn)
+gui_helper.disable_frame(options_frame)
 
 #exception handling
 def report_callback_exception(self, exception, *args):

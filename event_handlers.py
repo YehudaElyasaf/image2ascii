@@ -11,7 +11,7 @@ img2ascii = None
 result_textbox = None
 
 #select image frame buttons
-def open_image(_result_textbox, options_frame, btn_select_image, selected_image_lbl, options):
+def open_image(_result_textbox, options_frame, select_image_btn, selected_image_lbl, options):
     global img2ascii, result_textbox
     result_textbox = _result_textbox
     
@@ -23,17 +23,17 @@ def open_image(_result_textbox, options_frame, btn_select_image, selected_image_
         #no image was selected
         return
     
+    #show selected image name in GUI
+    select_image_btn['text'] = 'convert new image'
+    image_filename = os.path.basename(image_path)
+    selected_image_lbl['text'] = image_filename
+    
     #enable options frame
     gui_helper.enable_frame(options_frame)
     
     #show image
     img2ascii = Img2Ascii(image_path)
     gui_helper.show_image(result_textbox, img2ascii, options)
-    
-    #show selected image name in GUI
-    btn_select_image['text'] = 'convert new image'
-    image_filename = os.path.basename(image_path)
-    selected_image_lbl['text'] = image_filename
 
 #options frame buttons
 def copy(result_textbox):
