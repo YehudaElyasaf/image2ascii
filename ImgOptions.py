@@ -19,6 +19,11 @@ class ImgOptions:
             #use default options
             pass
     
+    def __init__(self, invert_ascii, is_colorful, invert_colors):
+        self.invert_ascii = invert_ascii
+        self.is_colorful = is_colorful
+        self.invert_colors = invert_colors
+    
     def __load_options(self):
         '''Read options from file'''
         

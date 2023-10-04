@@ -1,6 +1,7 @@
 import argparse
 
 from Img2Ascii import *
+from ImgOptions import *
 import config
 
 parser = argparse.ArgumentParser(
@@ -27,12 +28,15 @@ if args.rows is not None:
 
 try:
     image = Img2Ascii(args.filename)
-    image_mat = image.to_ascii_matrix(
-        rows=rows,
+    options = ImgOptions(
         invert_ascii=args.invert_ascii is not None,
         invert_colors=args.invert_colors is not None,
         is_colorful=args.colorful is not None,
-        )
+    )
+    image_mat = image.to_ascii_matrix(
+        rows=rows,
+        options=options
+    )
     
     #print image
     for row in image_mat:
@@ -48,3 +52,4 @@ except Exception as e:
         print('Error!')
         print(e.args[0])
         exit(1)
+        

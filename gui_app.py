@@ -64,10 +64,11 @@ invert_colors_btn = Button(options_frame, text='invert colors',
                            command=lambda: event_handlers.invert_colors(invert_colors_btn, options))
 invert_colors_btn.pack(side=LEFT, fill=X, expand=True)
 
-#ADDING WIDGETS TO OPTIONS FRAME:
+#ADDING OPTION: (not all stages are necessarily required)
 # 1. add widghet here
 # 2. add widget to options
 # 3. add widget to method 'load_options' in gui_helper.py
+# 4. add option to ImgOptions's c'tor in cli_app.py
 
 #show options from file on GUI
 #TODO: why do changes appear only on hovering?
