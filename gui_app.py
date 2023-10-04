@@ -77,5 +77,7 @@ def report_callback_exception(self, exception, *args):
     
 root.report_callback_exception = report_callback_exception
 
-#run
-root.mainloop()
+#main
+if __name__ == '__main__':
+    #run
+    root.mainloop()
