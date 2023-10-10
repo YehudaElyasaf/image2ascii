@@ -4,6 +4,7 @@ from tkinter import *
 from tkinter import filedialog
 
 from Img2Ascii import *
+from ImgOptions import ImgOptions
 import gui_helper
 
 #globals
@@ -11,9 +12,16 @@ img2ascii = None
 result_textbox = None
 
 #select image frame buttons
-def open_image(_result_textbox, options_frame, select_image_btn, selected_image_lbl, options):
+def open_image(_result_textbox, select_characters_txt, options_frame, select_image_btn, selected_image_lbl, options):
     global img2ascii, result_textbox
     result_textbox = _result_textbox
+    
+    #use characters from select_characters_txt
+    options.characters = select_characters_txt.get()
+    
+    if len(options.characters) == 0:
+        #show default characters
+            options.characters = ImgOptions.DEFAULT_CHARACTERS
     
     image_path = filedialog.askopenfilename(title="Select image", filetypes=(
         ('Image Files', ('*.png', '*.jpg', '*.jpeg')),
@@ -73,5 +81,14 @@ def invert_colors(sender, options):
         gui_helper.select_button(sender)
     else:
         gui_helper.unselect_button(sender)
+            
+    gui_helper.show_image(result_textbox, img2ascii, options)
+
+def set_characters(options, select_characters_txt):
+    options.characters = select_characters_txt.get()
+    
+    if len(options.characters) == 0:
+        #show default characters
+            options.characters = ImgOptions.DEFAULT_CHARACTERS
             
     gui_helper.show_image(result_textbox, img2ascii, options)

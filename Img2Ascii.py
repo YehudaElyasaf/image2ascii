@@ -9,12 +9,14 @@ MAX_ROWS = 150
 
 class Img2Ascii:
     #all supported letters, sorted from biggest to smallest
-    SUPPORTED_CHARACTERS_ORDERED = 'NBWM0@RD#8H69KEAQOGSPXFUZV&$gmdbqpae3542hk%CYTJIL{}wonusxzftc17jlvi[]?\\()<>=r+*!;:~"^,_-.\'` ' #TODO: go over this
+    SUPPORTED_CHARACTERS_ORDERED = 'NBWM0@RD#8H69KEAQOGSPXFUZV&$gmdbqpae3542hk%CYTJIyL{}wonusxzftc17jlvi[]?/\\()<>=r+*!;:~"^,_-.\'` '
     
     def __init__(self, image_path):
         self.image_path = image_path
+        
+        #check if image exists
         try:
-            image = Image.open(image_path)
+            Image.open(image_path)
         except IOError:
             raise Exception(f'{image_path} is not a valid image file')
     
@@ -74,13 +76,14 @@ class Img2Ascii:
 
     def __order_characters(self, options):
         #remove duplicate characters
-        set(options.characters)
+        options.characters = set(options.characters)
         
         try:
+            #sort
             options.characters = sorted(options.characters, key=lambda char: self.SUPPORTED_CHARACTERS_ORDERED.index(char))
+            options.characters = ''.join(options.characters)
         except ValueError:
             #not supported character
-            
             #find character
             for char in options.characters:
                 if self.SUPPORTED_CHARACTERS_ORDERED.find(char) == -1:
@@ -90,8 +93,12 @@ class Img2Ascii:
             options.characters = options.characters[::-1]
 
     def to_ascii_matrix(self, options, rows):
+        #validate input
         if options.invert_colors and not options.is_colorful:
-            raise Exception("Can't invert colors of colorless image")
+            raise Exception('Can\'t invert colors of colorless image')
+        
+        if len(options.characters) == 0:
+            raise Exception('No character selected')
 
         if(rows < MIN_ROWS):
             raise Exception(f'Minimum rows allowed is {MIN_ROWS}')

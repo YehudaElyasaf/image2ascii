@@ -29,7 +29,7 @@ root['bg'] = '#FFFF00'
 select_image_frame = Frame(root, bg='')
 select_image_frame.pack()
 
-select_image_btn = Button(select_image_frame, text='convert image', command=lambda: event_handlers.open_image(result_textbox, options_frame, select_image_btn, selected_image_lbl, options))
+select_image_btn = Button(select_image_frame, text='convert image', command=lambda: event_handlers.open_image(result_textbox, select_characters_txt, options_frame, select_image_btn, selected_image_lbl, options))
 select_image_btn.pack(side=LEFT, anchor=CENTER, padx=10)
 
 selected_image_lbl = Label(select_image_frame, bg=root['bg'], fg='black', text='No image selected')
@@ -39,7 +39,7 @@ selected_image_lbl.pack(side=RIGHT, anchor=CENTER)
 #TODO: set font size according to rows
 #TODO: allow user set forecolor (in one-color mode) and bgcolor
 #TODO: save ASCII to image?
-result_textbox = Text(root, bg='#fff', font=('Monospace', 10, 'bold'))
+result_textbox = Text(root, bg='#111', font=('Monospace', 10, 'bold'))
 result_textbox.pack(fill=BOTH, expand=True)
 result_textbox['state']=DISABLED
 
@@ -65,16 +65,16 @@ invert_colors_btn = Button(options_frame, text='invert colors',
                            command=lambda: event_handlers.invert_colors(invert_colors_btn, options))
 invert_colors_btn.pack(side=LEFT, fill=X, expand=True)
 
-#ADDING OPTION: (not all stages are necessarily required)
-# 0. add option to ImgOptions class
-# 1. add widghet here
-# 2. add widget to options
-# 3. add widget to method 'load_options' in gui_helper.py
-# 4. add option to ImgOptions's c'tor in cli_app.py
+select_characters_txt = Entry(options_frame)
+select_characters_txt.pack(side=LEFT, fill=X, expand=True)
+
+select_characters_btn = Button(options_frame, text='OK',
+                           command=lambda: event_handlers.set_characters(options, select_characters_txt))
+select_characters_btn.pack(side=LEFT, fill=X, expand=False)
 
 #show options from file on GUI
 #TODO: why do changes appear only on hovering?
-gui_helper.show_options(options, invert_ascii_btn, is_colorful_btn, invert_colors_btn)
+gui_helper.show_options(options, invert_ascii_btn, is_colorful_btn, invert_colors_btn, select_characters_txt)
 gui_helper.disable_frame(options_frame)
 
 #exception handling

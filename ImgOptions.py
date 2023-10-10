@@ -1,5 +1,10 @@
 import json
-from Img2Ascii import Img2Ascii
+
+#ADDING OPTION: (not all stages are necessarily required)
+# 1. add option to ImgOptions class
+# 2. add widget ing gui_app.py
+# 3. add widget to method 'show_options' in gui_helper.py
+# 4. add option to ImgOptions's c'tor in cli_app.py
 
 class ImgOptions:
     __OPTIONS_FILE_PATH = '.options.json'
@@ -7,11 +12,11 @@ class ImgOptions:
     __INVERT_ASCII_OPTION = 'invert_ascii'    
     __IS_COLORFUL_OPTION = 'is_colorful'
     __INVERT_COLORS_OPTION = 'invert_colors'    
-    __CHARACTERS_OPTION = 'invert_colors'    
+    __CHARACTERS_OPTION = 'characters'
+      
     #defualt values
-    DEFAULT_ROWS = 20 #TODO: set default letters
-    DEFAULT_CHARACTERS = '@0QO%#&o=*+~-:,. ' #TODO: set default rows
-    DEFAULT_CHARACTERS = Img2Ascii.SUPPORTED_CHARACTERS_ORDERED
+    DEFAULT_ROWS = 25
+    DEFAULT_CHARACTERS = 'YEHUDAyehuda+:<>#&. '
     
     invert_ascii = False
     is_colorful = False
@@ -49,7 +54,8 @@ class ImgOptions:
             self.__INVERT_ASCII_OPTION: self.invert_ascii,
             self.__IS_COLORFUL_OPTION: self.is_colorful,
             self.__INVERT_COLORS_OPTION: self.invert_colors,
-            self.__CHARACTERS_OPTION: self.characters,
+            #in default characters ,don't save
+            self.__CHARACTERS_OPTION: self.characters if self.characters != self.DEFAULT_CHARACTERS else ''
         }
     
         with open(self.__OPTIONS_FILE_PATH, 'w') as file:

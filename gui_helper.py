@@ -16,9 +16,16 @@ def disable_frame(frame):
         
 def enable_frame(frame):
     for child in frame.winfo_children():
-        child['state'] = ACTIVE
+        try:
+            child['state'] = ACTIVE
+        except:
+            #textbox can't be ACTIVE
+            child['state'] = NORMAL
         
 def show_image(result_textbox, img2ascii, image_options):
+    #save options to file
+    image_options.save_options()
+    
     ascii_mat = img2ascii.to_ascii_matrix(image_options, rows=25)
 
     result_textbox['state'] = NORMAL
@@ -36,10 +43,7 @@ def show_image(result_textbox, img2ascii, image_options):
     
     result_textbox['state'] = DISABLED
     
-    #save options to file
-    image_options.save_options()
-    
-def show_options(options, invert_ascii_btn, is_colorful_btn, invert_colors_btn):
+def show_options(options, invert_ascii_btn, is_colorful_btn, invert_colors_btn, select_characters_txt):
     if options.invert_ascii:
         select_button(invert_ascii_btn)
         
@@ -50,6 +54,10 @@ def show_options(options, invert_ascii_btn, is_colorful_btn, invert_colors_btn):
         
     if options.invert_colors:
         select_button(invert_colors_btn)
+    
+    select_characters_txt.delete(0, END)
+    select_characters_txt.insert(END, options.characters)
+    
 
 def __rgb_to_html(r, g, b):
     return f'#{r:02x}{g:02x}{b:02x}'
