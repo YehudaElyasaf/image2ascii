@@ -66,6 +66,7 @@ invert_colors_btn = Button(options_frame, text='invert colors',
 invert_colors_btn.pack(side=LEFT, fill=X, expand=True)
 
 #ADDING OPTION: (not all stages are necessarily required)
+# 0. add option to ImgOptions class
 # 1. add widghet here
 # 2. add widget to options
 # 3. add widget to method 'load_options' in gui_helper.py

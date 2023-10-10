@@ -5,9 +5,12 @@ from AsciiCell import *
 #ration between row height to character width
 CHAR_HEIGHT_WIDTH_RATIO = 2.35
 MIN_ROWS = 5
-MAX_ROWS = 100
+MAX_ROWS = 150
 
 class Img2Ascii:
+    #all supported letters, sorted from biggest to smallest
+    SUPPORTED_CHARACTERS_ORDERED = 'NBWM0@RD#8H69KEAQOGSPXFUZV&$gmdbqpae3542hk%CYTJIL{}wonusxzftc17jlvi[]?\\()<>=r+*!;:~"^,_-.\'` ' #TODO: go over this
+    
     def __init__(self, image_path):
         self.image_path = image_path
         try:
@@ -21,8 +24,8 @@ class Img2Ascii:
         image = image.convert('RGB')
         
         if not is_colorful:
-            #black color
-            return 0, 0, 0
+            #white color
+            return 255, 255, 255
 
         total_r = 0
         total_g = 0
@@ -69,14 +72,22 @@ class Img2Ascii:
         
         return AsciiCell(char, r, g, b)
 
-    def __get_all_characters(self, invert_ascii):
-        #TODO: allow user select characters (in both GUI and CLI)
-        chars = '@0QO%#&o=*+~-:,. '
-
-        if invert_ascii:
-            chars = chars[::-1]
+    def __order_characters(self, options):
+        #remove duplicate characters
+        set(options.characters)
         
-        return chars
+        try:
+            options.characters = sorted(options.characters, key=lambda char: self.SUPPORTED_CHARACTERS_ORDERED.index(char))
+        except ValueError:
+            #not supported character
+            
+            #find character
+            for char in options.characters:
+                if self.SUPPORTED_CHARACTERS_ORDERED.find(char) == -1:
+                    raise ValueError(f"Character '{char}' is not supported.\nSupported characters: {self.SUPPORTED_CHARACTERS_ORDERED}(including whitespace)")
+        
+        if options.invert_ascii:
+            options.characters = options.characters[::-1]
 
     def to_ascii_matrix(self, options, rows):
         if options.invert_colors and not options.is_colorful:
@@ -86,8 +97,8 @@ class Img2Ascii:
             raise Exception(f'Minimum rows allowed is {MIN_ROWS}')
         if(rows > MAX_ROWS):
             raise Exception(f'Maximum rows allowed is {MAX_ROWS}')
-
-        chars = self.__get_all_characters(options.invert_ascii)
+            
+        self.__order_characters(options)
 
         image = Image.open(self.image_path)
         image.convert('RGB')
@@ -108,7 +119,7 @@ class Img2Ascii:
                 height = top + pixel_height
                 width = left + pixel_width
                 cropped_image = image.crop((left, top, width, height))
-                cell = self.__get_cell(cropped_image, chars, options.is_colorful, options.invert_colors)
+                cell = self.__get_cell(cropped_image, options.characters, options.is_colorful, options.invert_colors)
 
                 row_to_add.append(cell)
             
