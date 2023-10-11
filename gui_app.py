@@ -9,16 +9,16 @@ from img2ascii import *
 
 #GUI
 root = Tk()
-
 #root
-height = 600
-width = 1000
+height = 720
+width = 1080
 
 margin_left = int((root.winfo_screenwidth() - width) / 2)
 margin_top = int((root.winfo_screenheight() - height) / 2)
 
-#TODO: GUI changes: colors and buttons
 root.geometry(f'{width}x{height}+{margin_left}+{margin_top}')
+
+#TODO: GUI changes: colors and buttons
 root.title = 'image2ascii'
 root.resizable(False, False)
 icon = Image.open('./img/icon.ico')
@@ -64,6 +64,14 @@ is_colorful_btn.pack(side=LEFT, fill=X, expand=True)
 invert_colors_btn = Button(options_frame, text='invert colors',
                            command=lambda: event_handlers.invert_colors(invert_colors_btn, options))
 invert_colors_btn.pack(side=LEFT, fill=X, expand=True)
+
+forecolor_btn = Button(options_frame, text='forecolor',
+                       command=None)
+forecolor_btn.pack(side=LEFT, fill=X, expand=True)
+
+backcolor_btn = Button(options_frame, text='backcolor',
+                       command=None)
+backcolor_btn.pack(side=LEFT, fill=X, expand=True)
 
 select_characters_txt = Entry(options_frame)
 select_characters_txt.pack(side=LEFT, fill=X, expand=True)

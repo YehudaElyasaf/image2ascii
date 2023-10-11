@@ -98,13 +98,6 @@ class Img2Ascii:
         
         if len(options.characters) == 0:
             raise Exception('No character selected')
-        if len(options.characters) == 1:
-            #can't show image with only one character
-            if options.characters == ' ':
-                raise Exception('Can\'t show image with whitespace only')
-            else:
-                #add whitespace, now there are two characters
-                options.characters += ' '
 
         if(rows < MIN_ROWS):
             raise Exception(f'Minimum rows allowed is {MIN_ROWS}')
@@ -196,6 +189,20 @@ class ImgOptions:
             self.is_colorful = options[self.__IS_COLORFUL_OPTION]
             self.invert_colors = options[self.__INVERT_COLORS_OPTION]
             self.characters = options[self.__CHARACTERS_OPTION]
+    
+    def __is_default_characters_selected(self):
+        '''Check if selected characters are default characters (in any order)'''
+        
+        if len(self.characters) != len(self.DEFAULT_CHARACTERS):
+            return False
+        
+        for char in self.characters:
+            if self.DEFAULT_CHARACTERS.find(char) == -1:
+                #character is't in default characters
+                return False
+        
+        #all characters are in default characters
+        return True
             
     def save_options(self):
         '''Save options to file'''
@@ -205,9 +212,9 @@ class ImgOptions:
             self.__IS_COLORFUL_OPTION: self.is_colorful,
             self.__INVERT_COLORS_OPTION: self.invert_colors,
             #in default characters ,don't save
-            self.__CHARACTERS_OPTION: self.characters if self.characters != self.DEFAULT_CHARACTERS else ''
+            self.__CHARACTERS_OPTION: '' if self.__is_default_characters_selected() else self.characters
         }
     
         with open(self.__OPTIONS_FILE_PATH, 'w') as file:
             json.dump(options_dict, file, indent=1)
-            
+    
