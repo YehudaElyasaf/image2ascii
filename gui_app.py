@@ -5,7 +5,7 @@ from PIL import ImageTk, Image
 import event_handlers
 import config
 import gui_helper
-from ImgOptions import *
+from img2ascii import *
 
 #GUI
 root = Tk()

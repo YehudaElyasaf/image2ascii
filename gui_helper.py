@@ -1,5 +1,5 @@
 from tkinter import *
-from ImgOptions import *
+from img2ascii import *
 
 __SELECTED_BUTTON_BG_COLOR = 'light blue'
 __UNSELECTED_BUTTON_BG_COLOR = '#d9d9d9' #don't change. Determined by Tkinter

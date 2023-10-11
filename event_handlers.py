@@ -3,8 +3,7 @@ import clipboard
 from tkinter import *
 from tkinter import filedialog
 
-from Img2Ascii import *
-from ImgOptions import ImgOptions
+from img2ascii import *
 import gui_helper
 
 #globals

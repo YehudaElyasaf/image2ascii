@@ -1,7 +1,6 @@
 import argparse
 
-from Img2Ascii import *
-from ImgOptions import *
+from img2ascii import *
 import config
 
 parser = argparse.ArgumentParser(
