@@ -98,6 +98,13 @@ class Img2Ascii:
         
         if len(options.characters) == 0:
             raise Exception('No character selected')
+        if len(options.characters) == 1:
+            #can't show image with only one character
+            if options.characters == ' ':
+                raise Exception('Can\'t show image with whitespace only')
+            else:
+                #add whitespace, now there are two characters
+                options.characters += ' '
 
         if(rows < MIN_ROWS):
             raise Exception(f'Minimum rows allowed is {MIN_ROWS}')
