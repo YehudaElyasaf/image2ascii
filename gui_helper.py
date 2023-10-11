@@ -14,13 +14,17 @@ def disable_frame(frame):
     for child in frame.winfo_children():
         child['state'] = DISABLED
         
-def enable_frame(frame):
+def enable_frame(frame, invert_colors_btn, options):
     for child in frame.winfo_children():
         try:
             child['state'] = ACTIVE
         except:
             #textbox can't be ACTIVE
             child['state'] = NORMAL
+    
+    if options.is_colorful == False:
+        invert_colors_btn['state'] = DISABLED
+        
         
 def show_image(result_textbox, img2ascii, image_options):
     #save options to file

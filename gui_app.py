@@ -29,7 +29,7 @@ root['bg'] = '#FFFF00'
 select_image_frame = Frame(root, bg='')
 select_image_frame.pack()
 
-select_image_btn = Button(select_image_frame, text='convert image', command=lambda: event_handlers.open_image(result_textbox, select_characters_txt, options_frame, select_image_btn, selected_image_lbl, options))
+select_image_btn = Button(select_image_frame, text='convert image', command=lambda: event_handlers.open_image(result_textbox, select_characters_txt, options_frame, select_image_btn, invert_colors_btn, selected_image_lbl, options))
 select_image_btn.pack(side=LEFT, anchor=CENTER, padx=10)
 
 selected_image_lbl = Label(select_image_frame, bg=root['bg'], fg='black', text='No image selected')

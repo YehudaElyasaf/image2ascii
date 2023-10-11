@@ -11,7 +11,7 @@ img2ascii = None
 result_textbox = None
 
 #select image frame buttons
-def open_image(_result_textbox, select_characters_txt, options_frame, select_image_btn, selected_image_lbl, options):
+def open_image(_result_textbox, select_characters_txt, options_frame, select_image_btn, invert_colors_btn, selected_image_lbl, options):
     global img2ascii, result_textbox
     result_textbox = _result_textbox
     
@@ -36,7 +36,7 @@ def open_image(_result_textbox, select_characters_txt, options_frame, select_ima
     selected_image_lbl['text'] = image_filename
     
     #enable options frame
-    gui_helper.enable_frame(options_frame)
+    gui_helper.enable_frame(options_frame, invert_colors_btn, options)
     
     #show image
     img2ascii = Img2Ascii(image_path)
