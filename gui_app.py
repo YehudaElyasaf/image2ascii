@@ -2,9 +2,12 @@ from tkinter import *
 from tkinter import messagebox
 from PIL import ImageTk, Image
 
+from lib.tooltip import CreateToolTip
+
 import event_handlers
 import config
 import gui_helper
+import colors
 from img2ascii import *
 
 #GUI
@@ -19,7 +22,7 @@ margin_top = int((root.winfo_screenheight() - height) / 2)
 root.geometry(f'{width}x{height}+{margin_left}+{margin_top}')
 
 #TODO: GUI changes: colors and buttons
-root.title = 'image2ascii'
+root.title = 'Image2Ascii'
 root.resizable(False, False)
 icon = Image.open('./img/icon.ico')
 root.iconphoto(False, ImageTk.PhotoImage(icon))
@@ -52,29 +55,36 @@ options_frame.pack(fill=X)
 copy_btn = Button(options_frame, text='copy',
                           command=lambda: event_handlers.copy(result_textbox))
 copy_btn.pack(side=LEFT, fill=X, expand=True)
+CreateToolTip(copy_btn, 'Copy', background=colors.TOOLTIP_BACKGROUND, foreground=colors.TOOLTIP_FOREGROUND)
 
 invert_ascii_btn = Button(options_frame, text='invert ASCII',
                           command=lambda: event_handlers.invert_ascii(invert_ascii_btn, options))
 invert_ascii_btn.pack(side=LEFT, fill=X, expand=True)
+CreateToolTip(invert_ascii_btn, 'Invert ASCII', background=colors.TOOLTIP_BACKGROUND, foreground=colors.TOOLTIP_FOREGROUND)
 
 is_colorful_btn = Button(options_frame, text='is colorful',
                          command=lambda: event_handlers.is_colorful(is_colorful_btn, options, invert_colors_btn))
 is_colorful_btn.pack(side=LEFT, fill=X, expand=True)
+CreateToolTip(is_colorful_btn, 'Color image', background=colors.TOOLTIP_BACKGROUND, foreground=colors.TOOLTIP_FOREGROUND)
 
 invert_colors_btn = Button(options_frame, text='invert colors',
                            command=lambda: event_handlers.invert_colors(invert_colors_btn, options))
 invert_colors_btn.pack(side=LEFT, fill=X, expand=True)
+CreateToolTip(invert_colors_btn, 'Invert colors', background=colors.TOOLTIP_BACKGROUND, foreground=colors.TOOLTIP_FOREGROUND)
 
 forecolor_btn = Button(options_frame, text='forecolor',
                        command=None)
 forecolor_btn.pack(side=LEFT, fill=X, expand=True)
+CreateToolTip(forecolor_btn, 'Font color', background=colors.TOOLTIP_BACKGROUND, foreground=colors.TOOLTIP_FOREGROUND)
 
 backcolor_btn = Button(options_frame, text='backcolor',
                        command=None)
 backcolor_btn.pack(side=LEFT, fill=X, expand=True)
+CreateToolTip(backcolor_btn, 'Background color', background=colors.TOOLTIP_BACKGROUND, foreground=colors.TOOLTIP_FOREGROUND)
 
 select_characters_txt = Entry(options_frame)
 select_characters_txt.pack(side=LEFT, fill=X, expand=True)
+CreateToolTip(select_characters_txt, 'Select characters', background=colors.TOOLTIP_BACKGROUND, foreground=colors.TOOLTIP_FOREGROUND)
 
 select_characters_btn = Button(options_frame, text='OK',
                            command=lambda: event_handlers.set_characters(options, select_characters_txt))
